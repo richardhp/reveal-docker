@@ -4,6 +4,6 @@ FROM node:18
 RUN mkdir -p /app
 WORKDIR /app
 
-COPY package* .
+COPY package* /app/
 RUN npm ci
-COPY . .
+COPY . /app/

@@ -25,7 +25,7 @@ const autoprefixer = require('gulp-autoprefixer')
 
 const root = yargs.argv.root || '.'
 const port = yargs.argv.port || 8000
-const host = yargs.argv.host || 'localhost'
+const host = yargs.argv.host || '0.0.0.0'
 
 const banner = `/*!
 * reveal.js ${pkg.version}
@@ -268,12 +268,6 @@ gulp.task('test', gulp.series( 'eslint', 'qunit' ))
 
 gulp.task('default', gulp.series(gulp.parallel('js', 'css', 'plugins'), 'test'))
 
-// This will bundle the slides up into an index.html file
-gulp.task('slides', 
-    () => gulp.src(['builder/index_part_1.html', 'slides/*.html', 'builder/index_part_2.html'])
-    .pipe(concat('index.html'))
-    .pipe(gulp.dest('.')))
-
 gulp.task('build', gulp.parallel('js', 'css', 'plugins'))
 
 gulp.task('package', gulp.series(() =>
@@ -324,3 +318,12 @@ gulp.task('serve', () => {
     gulp.watch(['test/*.html'], gulp.series('test'))
 
 })
+
+// This will bundle the slides up into an index.html file
+gulp.task('slides', 
+    () => gulp.src(['builder/index_part_1.html', 'slides/*.html', 'builder/index_part_2.html'])
+    .pipe(concat('index.html'))
+    .pipe(gulp.dest('.')))
+
+// This joins the slides then starts serving them
+gulp.task('deploy', gulp.series('slides', 'serve'))

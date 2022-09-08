@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  reveal:
+    build:
+      context: .
+    command: node_modules/.bin/gulp deploy
+    volumes:
+      - ./slides:/app/slides
+    ports:
+      - 7000:8000
