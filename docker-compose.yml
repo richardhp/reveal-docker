@@ -4,8 +4,10 @@ services:
   reveal:
     build:
       context: .
-    command: node_modules/.bin/gulp deploy
+    command: node_modules/.bin/gulp deploy --title=mytitle
     volumes:
       - ./slides:/app/slides
     ports:
       - 7000:8000
+    environment:
+      - TITLE=mytitle

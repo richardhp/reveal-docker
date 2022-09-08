@@ -6,6 +6,7 @@ const colors = require('colors')
 const through = require('through2');
 const qunit = require('node-qunit-puppeteer')
 const concat = require('gulp-concat');
+const replace = require('gulp-replace');
 
 const {rollup} = require('rollup')
 const {terser} = require('rollup-plugin-terser')
@@ -26,6 +27,7 @@ const autoprefixer = require('gulp-autoprefixer')
 const root = yargs.argv.root || '.'
 const port = yargs.argv.port || 8000
 const host = yargs.argv.host || '0.0.0.0'
+const title = process.env.TITLE || 'Presentation Title'
 
 const banner = `/*!
 * reveal.js ${pkg.version}
@@ -323,6 +325,7 @@ gulp.task('serve', () => {
 gulp.task('slides', 
     () => gulp.src(['builder/index_part_1.html', 'slides/*.html', 'builder/index_part_2.html'])
     .pipe(concat('index.html'))
+    .pipe(replace('##title##', title))
     .pipe(gulp.dest('.')))
 
 // This joins the slides then starts serving them
